@@ -7,19 +7,21 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
+  margin: 0;
 }
 :root {
-  --height: 300;
+  --height: 350; /* 增加总高度以容纳四个抽屉 */
   --width: 200;
   --depth: 150;
-  --drawerSize: calc((var(--height) / 3) - 10);
-  --drawerHole: calc((var(--height) - ((10 * 4) + (10 + 30))) / 3);
+  --drawerSize: calc((var(--height) / 4) - 10); /* 调整为四个抽屉 */
+  --drawerHole: calc((var(--height) - ((10 * 4) + (10 + 30))) / 4); /* 调整为四个抽屉 */
 }
 .chest {
   height: calc(var(--height) * 1px);
   transform: rotateX(-30deg) rotateY(40deg);
   transform-style: preserve-3d;
   width: calc(var(--width) * 1px);
+  position: relative;
 }
 .chest__panel {
   height: 100%;
@@ -50,6 +52,7 @@ body {
   border-top-width: 10px;
   transform: translate3d(0, 0, 0);
 }
+/* 添加第四个分隔线 */
 .chest__panel--front-frame:before {
   background: #5b5b5b;
   content: '';
@@ -66,6 +69,16 @@ body {
   left: 0;
   position: absolute;
   top: calc(var(--drawerHole) * 2px + 20px);
+  width: 100%;
+}
+/* 新增第三个分隔线 */
+.chest__panel--front-frame .chest__separator {
+  background: #5b5b5b;
+  content: '';
+  height: 20px;
+  left: 0;
+  position: absolute;
+  top: calc(var(--drawerHole) * 3px + 40px);
   width: 100%;
 }
 .chest__panel--back {
@@ -133,19 +146,25 @@ body {
 }
 .chest-drawer--top,
 .chest-drawer--middle,
-.chest-drawer--bottom {
+.chest-drawer--bottom,
+.chest-drawer--fourth {
   transform: translate3d(0, 0, calc(var(--depth) * 0.51px));
 }
 .chest-drawer--top {
   top: 5px;
-  z-index: 3;
+  z-index: 4;
 }
 .chest-drawer--middle {
   top: calc((var(--drawerSize) + 10) * 1px);
-  z-index: 2;
+  z-index: 3;
 }
 .chest-drawer--bottom {
   top: calc((var(--drawerSize) * 2 + 15) * 1px);
+  z-index: 2;
+}
+/* 新增的第四个抽屉样式 */
+.chest-drawer--fourth {
+  top: calc((var(--drawerSize) * 3 + 20) * 1px);
   z-index: 1;
 }
 .chest-drawer details,
@@ -230,15 +249,14 @@ body {
   left: 10px;
   transform: translate3d(0, 0, calc((var(--depth) - 2) * -1px));
   width: calc(100% - (2px * 10));
+  overflow: hidden; /* 确保图片不溢出 */
 }
-.chest-drawer__structure {
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  transform-style: preserve-3d;
-  transition: transform 0.25s;
+/* 爱人头像样式 */
+.lover-img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .chest-drawer--top .chest-drawer__panel--back {
   color: #111;
@@ -248,4 +266,17 @@ body {
 }
 .chest-drawer--bottom .chest-drawer__panel--back {
   color: #111;
+}
+.chest-drawer--fourth .chest-drawer__panel--back {
+  color: #111;
+  padding: 0; /* 移除内边距 */
+}
+.chest-drawer__structure {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.25s;
+  width: 100%;
 }
